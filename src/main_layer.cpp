@@ -18,8 +18,6 @@ bool main_layer::on_update(ere::update_event& e) {
 bool main_layer::on_imgui_update(ere::imgui_update_event& e) {
     setup_dockspace();
 
-    ImGui::ShowDemoWindow();
-
     return false;
 }
 
