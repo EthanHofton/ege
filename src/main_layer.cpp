@@ -1,4 +1,4 @@
-#include <ege/layers/main_layer.hpp>
+#include <ege/core/main_layer.hpp>
 
 namespace ege {
 
@@ -45,4 +45,5 @@ bool main_layer::on_mouse_moved(ere::mouse_moved_event& e) {
 bool main_layer::on_mouse_scrolled(ere::mouse_scrolled_event& e) {
     return false;
 }    
+
 }

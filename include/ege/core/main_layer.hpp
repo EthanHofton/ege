@@ -3,8 +3,6 @@
 
 #include <ege/core/logger.hpp>
 #include <ere/core/layer.hpp>
-#include <imgui.h>
-#include <ege/ecs/scene.hpp>
 #include <ere/core/core.hpp>
 
 namespace ege {
