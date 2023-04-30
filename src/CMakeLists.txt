@@ -21,7 +21,7 @@ FetchContent_MakeAvailable(EnTT)
 # ================= nolhmann_json =================
 FetchContent_Declare(
     nolhmann_json
-    GIT_REPOSITORY https://github.com/nlohmann/json/releases/download/v3.11.2/json.tar.xz
+    URL https://github.com/nlohmann/json/releases/download/v3.11.2/json.tar.xz
 )
 FetchContent_MakeAvailable(nolhmann_json)
 # ========================================
