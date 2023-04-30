@@ -4,6 +4,10 @@
 #include <ege/core/logger.hpp>
 #include <ere/core/layer.hpp>
 #include <ere/core/core.hpp>
+#include <ege/events/app_events.hpp>
+#include <ege/events/key_events.hpp>
+#include <ege/events/mouse_events.hpp>
+#include <ege/ecs/system_manager.hpp>
 
 namespace ege {
 
@@ -24,6 +28,8 @@ public:
     bool on_mouse_button_released(ere::mouse_button_released_event& e) override;
     bool on_mouse_moved(ere::mouse_moved_event& e) override;
     bool on_mouse_scrolled(ere::mouse_scrolled_event& e) override;
+
+    bool on_file_dropped(ere::file_dropped_event& e) override;
 
 private:
 
