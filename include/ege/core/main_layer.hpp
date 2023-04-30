@@ -4,6 +4,9 @@
 #include <ege/core/logger.hpp>
 #include <ere/core/layer.hpp>
 #include <ere/core/core.hpp>
+#include <ege/events/app_events.hpp>
+#include <ege/events/key_events.hpp>
+#include <ege/events/mouse_events.hpp>
 #include <ege/ecs/system_manager.hpp>
 
 namespace ege {
