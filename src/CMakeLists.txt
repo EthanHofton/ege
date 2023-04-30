@@ -32,6 +32,7 @@ FetchContent_MakeAvailable(nolhmann_json)
 set(EXE_NAME "ege")
 
 set(SOURCES
+    system.cpp
     main_layer.cpp
     main.cpp
 )
