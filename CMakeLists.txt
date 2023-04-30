@@ -28,5 +28,3 @@ add_subdirectory(include)
 # add resource files
 add_subdirectory(res)
 
-# add vendor
-# add_subdirectory(vendor)

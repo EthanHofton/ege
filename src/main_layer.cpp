@@ -1,9 +1,16 @@
 #include <ege/core/main_layer.hpp>
+
+#include <ege/ecs/system_manager.hpp>
+#include <ege/ecs/systems/project_system.hpp>
+
 #include <imgui.h>
 
 namespace ege {
 
 bool main_layer::on_attach(ere::attach_event& e) {
+    // SYSTEMS
+    system_manager::get<project_system>();
+
     return false;
 }
 
