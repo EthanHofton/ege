@@ -12,7 +12,6 @@ ref<ere::application> ere::ere_create_application(int argc, char** argv) {
     app->push_layer(createRef<ege::main_layer>());
 
     app->set_fps(120);
-    app->set_window_swap_interval(0);
     app->set_window_title("Ethans Game Engine");
     app->set_background_color(ege::BASE_COLOR);
     app->set_window_size({1600, 900});

@@ -118,8 +118,14 @@ bool main_layer::on_file_dropped(ere::file_dropped_event& e) {
 void main_layer::draw_menu_bar() {
     if (ImGui::BeginMenuBar()) {
         if (ImGui::BeginMenu("File")) {
-            ImGui::MenuItem("New");
-            ImGui::MenuItem("Open");
+            if (ImGui::MenuItem("New")) {
+                system_manager::get<project_system>()->new_project_dialog();
+            }
+
+            if (ImGui::MenuItem("Open")) {
+                system_manager::get<project_system>()->open_project_dialog();
+            }
+
             ImGui::MenuItem("Save");
             ImGui::MenuItem("Save As");
 
