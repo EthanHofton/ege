@@ -24,6 +24,11 @@ public:
     bool on_mouse_button_released(ere::mouse_button_released_event& e) override;
     bool on_mouse_moved(ere::mouse_moved_event& e) override;
     bool on_mouse_scrolled(ere::mouse_scrolled_event& e) override;
+
+private:
+
+    void setup_dockspace();
+    void draw_menu_bar();
 };
 
 }
