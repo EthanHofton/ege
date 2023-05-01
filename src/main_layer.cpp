@@ -1,7 +1,7 @@
 #include <ege/core/main_layer.hpp>
-
 #include <ege/ecs/system_manager.hpp>
-#include <ege/ecs/systems/project_system.hpp>
+#include <ege/ecs/systems/project_selector_system.hpp>
+#include <ege/ecs/systems/project_explorer_system.hpp>
 
 #include <imgui.h>
 
@@ -9,7 +9,8 @@ namespace ege {
 
 bool main_layer::on_attach(ere::attach_event& e) {
     // SYSTEMS
-    system_manager::get<project_system>();
+    system_manager::get<project_explorer_system>();
+    system_manager::get<project_selector_system>();
 
     return false;
 }
@@ -119,15 +120,20 @@ void main_layer::draw_menu_bar() {
     if (ImGui::BeginMenuBar()) {
         if (ImGui::BeginMenu("File")) {
             if (ImGui::MenuItem("New")) {
-                system_manager::get<project_system>()->new_project_dialog();
+                system_manager::get<project_selector_system>()->show_new_project_window();
             }
 
             if (ImGui::MenuItem("Open")) {
-                system_manager::get<project_system>()->open_project_dialog();
+                system_manager::get<project_selector_system>()->show_open_project_window();
             }
 
-            ImGui::MenuItem("Save");
-            ImGui::MenuItem("Save As");
+            if (ImGui::MenuItem("Save")) {
+                project_manager::save_project();
+            }
+
+            if (ImGui::MenuItem("Save As")) {
+                system_manager::get<project_selector_system>()->show_save_project_as_window();
+            }
 
             ImGui::EndMenu();
         }

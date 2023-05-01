@@ -1,8 +1,7 @@
 #include <ere/core/entry_point.hpp>
 #include <ege/core/main_layer.hpp>
 #include <ege/core/colors.hpp>
-#include <ege/ecs/systems/project_system.hpp>
-#include <ege/ecs/system_manager.hpp>
+#include <ege/ecs/project_manger.hpp>
 
 using namespace ere;
 
@@ -19,8 +18,7 @@ ref<ere::application> ere::ere_create_application(int argc, char** argv) {
 
     if (argc > 1) {
         std::string project_root = argv[1];
-        ere::ref<ege::project_system> project_sys = ege::system_manager::get<ege::project_system>();
-        project_sys->load_project(project_root);
+        ege::project_manager::open_project(project_root);
     }
 
     return app;

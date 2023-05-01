@@ -46,6 +46,10 @@ public:
 
     virtual bool on_file_drop(file_drop_event& event) { return false; }
 
+    virtual bool on_open_project(open_project_event& event) { return false; }
+    virtual bool on_new_project(new_project_event& event) { return false; }
+    virtual bool on_save_project(save_project_event& event) { return false; }
+
     virtual void on_event(ege_event& t_e) override final;
 };
 

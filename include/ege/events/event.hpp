@@ -23,6 +23,8 @@ enum class ege_events {
 
     // input
     file_drop,
+
+    open_project, new_project, save_project,
 };
 
 struct ege_event : public util::event<ege_events> {};

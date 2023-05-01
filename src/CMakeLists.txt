@@ -32,8 +32,10 @@ FetchContent_MakeAvailable(nolhmann_json)
 set(EXE_NAME "ege")
 
 set(SOURCES
+    project_selector_system.cpp
+    project_explorer_system.cpp
     vendor/ImGuiFileDialog/ImGuiFileDialog.cpp
-    project_system.cpp
+    project_manager.cpp
     system_manager.cpp
     system.cpp
     main_layer.cpp
