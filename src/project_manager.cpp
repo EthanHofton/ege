@@ -117,28 +117,11 @@ bool project_manager::save_project_as(const config& new_project_config, const st
 
 bool project_manager::create_temp_project() {
     config project_config;
-    // create project root
-    m_project_root = ".";
-    m_project_root += "/";
-    m_project_root += project_config.project_name;
-
-    EGE_INFO("Creating project '{}' in directory '{}'", project_config.project_name, m_project_root);
-    std::filesystem::create_directory(m_project_root);
-
-    nlohmann::json config_json = project_config;
-    std::ofstream config_file(m_project_root + "/" + m_project_file_filter);
-    config_file << config_json.dump(4);
-    config_file.close();
-
-    // create project directories
-    // TODO: create directories
+    new_project(project_config, ".");
 
     m_temp_project = true;
-    m_project_config = project_config;
     m_temp_project_root = m_project_root;
 
-    new_project_event e;
-    system_manager::on_event(e);
     return true;
 }
 
