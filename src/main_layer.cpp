@@ -16,6 +16,7 @@ bool main_layer::on_attach(ere::attach_event& e) {
 }
 
 bool main_layer::on_detach(ere::detach_event& e) {
+    project_manager::delete_temp_project();
     return false;
 }
 
@@ -128,7 +129,7 @@ void main_layer::draw_menu_bar() {
             }
 
             if (ImGui::MenuItem("Save")) {
-                project_manager::save_project();
+                system_manager::get<project_selector_system>()->save_project();
             }
 
             if (ImGui::MenuItem("Save As")) {

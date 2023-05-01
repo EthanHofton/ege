@@ -3,7 +3,8 @@
 
 namespace ege {
 
-bool project_manager::m_project_loaded = false;
+bool project_manager::m_temp_project = false;
+std::string project_manager::m_temp_project_root = "";
 config project_manager::m_project_config;
 std::string project_manager::m_project_root;
 
@@ -29,7 +30,7 @@ bool project_manager::open_project(const std::string& project_root) {
 
     m_project_config = config_json.get<ege::config>();
     m_project_root = project_root;
-    m_project_loaded = true;
+    m_temp_project = false;
 
     EGE_INFO("Loaded project '{}' from directory '{}'", m_project_config.project_name, project_root);
 
@@ -62,7 +63,7 @@ bool project_manager::new_project(const config& project_config, const std::strin
     // create project directories
     // TODO: create directories
 
-    m_project_loaded = true;
+    m_temp_project = false;
     m_project_config = project_config;
 
     new_project_event e;
@@ -72,10 +73,6 @@ bool project_manager::new_project(const config& project_config, const std::strin
 }
 
 bool project_manager::save_project() {
-    if (!m_project_loaded) {
-        return false;
-    }
-
     save_project_event e;
     system_manager::on_event(e);
 
@@ -83,10 +80,6 @@ bool project_manager::save_project() {
 }
 
 bool project_manager::save_project_as(const config& new_project_config, const std::string& project_root) {
-    if (!m_project_loaded) {
-        return false;
-    }
-
     // check validity of project root
     if (!std::filesystem::exists(project_root)) {
         return false;
@@ -114,12 +107,55 @@ bool project_manager::save_project_as(const config& new_project_config, const st
     // create project directories
     // TODO: create directories
 
-    m_project_loaded = true;
+    m_temp_project = true;
     m_project_config = new_project_config;
 
     save_project();
 
     return true;
+}
+
+bool project_manager::create_temp_project() {
+    config project_config;
+    // create project root
+    m_project_root = ".";
+    m_project_root += "/";
+    m_project_root += project_config.project_name;
+
+    EGE_INFO("Creating project '{}' in directory '{}'", project_config.project_name, m_project_root);
+    std::filesystem::create_directory(m_project_root);
+
+    nlohmann::json config_json = project_config;
+    std::ofstream config_file(m_project_root + "/" + m_project_file_filter);
+    config_file << config_json.dump(4);
+    config_file.close();
+
+    // create project directories
+    // TODO: create directories
+
+    m_temp_project = true;
+    m_project_config = project_config;
+    m_temp_project_root = m_project_root;
+
+    new_project_event e;
+    system_manager::on_event(e);
+    return true;
+}
+
+void project_manager::delete_temp_project() {
+    if (m_temp_project_root.empty()) {
+        return;
+    }
+
+    if (!std::filesystem::exists(m_temp_project_root)) {
+        return;
+    }
+
+    if (!std::filesystem::is_directory(m_temp_project_root)) {
+        return;
+    }
+
+    std::filesystem::remove_all(m_temp_project_root);
 }
 
 }

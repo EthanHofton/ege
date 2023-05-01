@@ -2,7 +2,6 @@
 #define __EGE_PROJECT_SELECTOR_SYSTEM_HPP__
 
 #include <ege/ecs/system.hpp>
-#include <ege/ecs/project_manger.hpp>
 #include <imgui.h>
 #include <misc/cpp/imgui_stdlib.h>
 #include <ImGuiFileDialog/ImGuiFileDialog.h>
@@ -17,6 +16,7 @@ public:
     inline void show_new_project_window() { m_show_new_project_window = true; }
     inline void show_open_project_window() { m_show_open_project_window = true; }
     inline void show_save_project_as_window() { m_show_save_project_as_window = true; }
+    void save_project();
 
 private:
 

@@ -1,4 +1,5 @@
 #include <ege/ecs/systems/project_selector_system.hpp>
+#include <ege/ecs/project_manger.hpp>
 #include <ImGuiFileDialog/ImGuiFileDialogConfig.h>
 
 namespace ege {
@@ -38,6 +39,12 @@ void project_selector_system::draw_new_project_window() {
         static std::string error_message = "";
 
         ImGui::InputText("Project Name", &project_config.project_name);
+        ImGui::InputInt("Project Version Major", &project_config.project_version_major);
+        ImGui::InputInt("Project Version Minor", &project_config.project_version_minor);
+        ImGui::InputInt("Project Version Patch", &project_config.project_version_patch);
+        ImGui::InputText("Project Author", &project_config.project_author);
+        ImGui::InputTextMultiline("Project Description", &project_config.project_description);
+
         ImGui::LabelText("Project Root", "%s", project_root.c_str());
         ImGui::SameLine();
         
@@ -155,6 +162,12 @@ void project_selector_system::draw_save_project_as_window() {
         static std::string error_message = "";
 
         ImGui::InputText("Project Name", &project_config.project_name);
+        ImGui::InputInt("Project Version Major", &project_config.project_version_major);
+        ImGui::InputInt("Project Version Minor", &project_config.project_version_minor);
+        ImGui::InputInt("Project Version Patch", &project_config.project_version_patch);
+        ImGui::InputText("Project Author", &project_config.project_author);
+        ImGui::InputTextMultiline("Project Description", &project_config.project_description);
+
         ImGui::LabelText("Project Root", "%s", project_root.c_str());
         ImGui::SameLine();
         
@@ -200,6 +213,14 @@ void project_selector_system::draw_save_project_as_window() {
         ImGui::EndPopup();
     } else {
         ImGui::OpenPopup("Save Project As");
+    }
+}
+
+void project_selector_system::save_project() {
+    if (project_manager::is_temp_project()) {
+        m_show_save_project_as_window = true;
+    } else {
+        project_manager::save_project();
     }
 }
 

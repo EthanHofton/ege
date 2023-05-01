@@ -19,6 +19,8 @@ ref<ere::application> ere::ere_create_application(int argc, char** argv) {
     if (argc > 1) {
         std::string project_root = argv[1];
         ege::project_manager::open_project(project_root);
+    } else if (argc == 1) {
+        ege::project_manager::create_temp_project();
     }
 
     return app;
