@@ -34,6 +34,9 @@ bool project_manager::open_project(const std::string& project_root) {
 
     EGE_INFO("Loaded project '{}' from directory '{}'", m_project_config.project_name, project_root);
 
+    open_project_event e;
+    system_manager::on_event(e);
+
     return true;
 }
 
@@ -66,8 +69,11 @@ bool project_manager::new_project(const config& project_config, const std::strin
     m_temp_project = false;
     m_project_config = project_config;
 
-    new_project_event e;
-    system_manager::on_event(e);
+    open_project_event e_open;
+    system_manager::on_event(e_open);
+
+    new_project_event e_new;
+    system_manager::on_event(e_new);
 
     return true;
 }
@@ -95,9 +101,10 @@ bool project_manager::save_project_as(const config& new_project_config, const st
     m_project_root = project_root;
     m_project_root += "/";
     m_project_root += new_project_config.project_name;
+    m_project_root = std::filesystem::path(m_project_root).string();
 
     EGE_INFO("Saving Project As '{}' in directory '{}'", new_project_config.project_name, m_project_root);
-    std::filesystem::copy(old_project_root, m_project_root);
+    std::filesystem::copy(old_project_root, m_project_root, std::filesystem::copy_options::recursive | std::filesystem::copy_options::overwrite_existing);
 
     nlohmann::json config_json = new_project_config;
     std::ofstream config_file(m_project_root + "/" + m_project_file_filter, std::ios::out | std::ios::trunc);
@@ -110,6 +117,12 @@ bool project_manager::save_project_as(const config& new_project_config, const st
     m_temp_project = true;
     m_project_config = new_project_config;
 
+    open_project_event e_open;
+    system_manager::on_event(e_open);
+
+    new_project_event e_new;
+    system_manager::on_event(e_new);
+
     save_project();
 
     return true;
@@ -117,7 +130,8 @@ bool project_manager::save_project_as(const config& new_project_config, const st
 
 bool project_manager::create_temp_project() {
     config project_config;
-    new_project(project_config, ".");
+
+    new_project(project_config, std::filesystem::current_path());
 
     m_temp_project = true;
     m_temp_project_root = m_project_root;
