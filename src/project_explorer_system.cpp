@@ -12,7 +12,7 @@ bool project_explorer_system::on_gui_draw(gui_draw_event& t_e) {
     ImGui::Begin("Project Explorer");
 
     ImGuiStyle& style = ImGui::GetStyle();
-    int i = 0;
+    int i = 1;
 
     ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, ImVec2(m_padding.x, m_padding.y));
     if (ImGui::BeginTable("filetables", 10)) {
@@ -36,7 +36,7 @@ bool project_explorer_system::on_gui_draw(gui_draw_event& t_e) {
     }
     ImGui::PopStyleVar();
 
-    if (ImGui::BeginPopupContextWindow()) {
+    if (ImGui::BeginPopupContextWindow("Explorer Menu")) {
         if (ImGui::BeginMenu("Create New")) {
             if (ImGui::MenuItem("Folder")) {
                 // create a new folder with a new name if allready taken
@@ -80,9 +80,7 @@ void project_explorer_system::draw_icon(const std::filesystem::path& t_path, con
         int t = ImGui::GetItemRectMax().x - ImGui::GetItemRectMin().x;
 
         std::string name = t_path.filename();
-        ImGui::PushID(name.c_str());
         ImGui::TextWrapped("%s", t_display.c_str());
-        ImGui::PopID();
 
         ImGui::EndGroup();
     }
