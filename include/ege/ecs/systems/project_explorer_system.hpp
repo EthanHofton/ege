@@ -17,10 +17,15 @@ public:
     bool on_open_project(open_project_event& t_e) override;
     bool on_file_drop(file_drop_event& t_e) override;
 
+    inline void show_import_window() { m_show_import_window = true; }
+
 private:
 
     void draw_icon(const std::filesystem::path& t_path, const std::string& t_display_name);
     void draw_cwd();
+    void draw_menu();
+    void import(std::filesystem::path t_path);
+    void draw_import_window();
 
     std::filesystem::path m_project_root;
     ere::ref<ere::texture2d_api> m_folder_icon;
@@ -28,6 +33,8 @@ private:
     glm::vec2 m_icon_size = {96, 96};
     glm::vec2 m_padding = {24, 5};
     bool m_selected = false;
+    bool m_show_import_window = false;
+    std::filesystem::path m_selected_path = "";
 };
 
 
