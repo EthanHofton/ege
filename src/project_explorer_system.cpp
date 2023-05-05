@@ -11,9 +11,9 @@ project_explorer_system::project_explorer_system() {
 bool project_explorer_system::on_gui_draw(gui_draw_event& t_e) {
     ImGui::Begin("Project Explorer");
 
-    ImGuiStyle& style = ImGui::GetStyle();
-    int i = 1;
+    draw_cwd();
 
+    int i = 1;
     ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, ImVec2(m_padding.x, m_padding.y));
     if (ImGui::BeginTable("filetables", 10)) {
 
@@ -51,6 +51,8 @@ bool project_explorer_system::on_gui_draw(gui_draw_event& t_e) {
         ImGui::EndPopup();
     }
 
+    m_selected =  ImGui::IsWindowFocused();
+
     ImGui::End();
 
     ImGui::ShowDemoWindow();
@@ -64,6 +66,7 @@ bool project_explorer_system::on_open_project(open_project_event& t_e) {
 }
 
 void project_explorer_system::draw_icon(const std::filesystem::path& t_path, const std::string& t_display) {
+    ImGui::PushID(t_path.string().c_str());
     ImGui::BeginGroup();
     {
         ere::ref<ere::texture2d_api> tex;
@@ -74,6 +77,7 @@ void project_explorer_system::draw_icon(const std::filesystem::path& t_path, con
         }
 
         if (ImGui::ImageButton((ImTextureID)(size_t)tex->get_texture_id(), ImVec2(m_icon_size.x, m_icon_size.y)) && std::filesystem::is_directory(t_path)) {
+            EGE_INFO("Changing directory to: {}", t_path.string());
             m_project_root = t_path;
         }
 
@@ -88,6 +92,47 @@ void project_explorer_system::draw_icon(const std::filesystem::path& t_path, con
     if (ImGui::IsItemHovered()) {
         ImGui::SetTooltip("%s", t_path.filename().c_str());
     }
+
+    ImGui::PopID();
+}
+
+void project_explorer_system::draw_cwd() {
+    ImGui::PushID("cwd");
+
+    auto base_path = std::filesystem::relative(m_project_root, std::filesystem::path(project_manager::get_project_root()).parent_path());
+    auto fullpath = std::filesystem::path(project_manager::get_project_root()).parent_path();
+
+    for (auto &p : base_path) {
+        fullpath /= p;
+        ImGui::PushID(fullpath.c_str());
+
+        if (ImGui::Button(p.string().c_str())) {
+            m_project_root = fullpath;
+        }
+
+        if (fullpath != m_project_root) {
+            ImGui::SameLine();
+            ImGui::Text("/");
+            ImGui::SameLine();
+        }
+
+        ImGui::PopID();
+    }
+
+    ImGui::Spacing();
+    ImGui::Separator();
+
+    ImGui::PopID();
+}
+
+bool project_explorer_system::on_file_drop(file_drop_event& t_e) {
+    if (m_selected) {
+        for (auto& path : t_e.get_paths()) {
+            std::filesystem::copy(path, m_project_root / std::filesystem::path(path).filename(), std::filesystem::copy_options::recursive);
+        }
+    }
+
+    return false;
 }
 
 }
