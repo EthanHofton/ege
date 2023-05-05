@@ -17,6 +17,8 @@ public:
     bool on_open_project(open_project_event& t_e) override;
     bool on_file_drop(file_drop_event& t_e) override;
 
+    inline void show_import_window() { m_show_import_window = true; }
+
 private:
 
     void draw_icon(const std::filesystem::path& t_path, const std::string& t_display_name);

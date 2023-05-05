@@ -138,6 +138,10 @@ void main_layer::draw_menu_bar() {
                 system_manager::get<project_selector_system>()->show_save_project_as_window();
             }
 
+            if (ImGui::MenuItem("Import")) {
+                system_manager::get<project_explorer_system>()->show_import_window();
+            }
+
             ImGui::EndMenu();
         }
 
