@@ -55,8 +55,6 @@ bool project_explorer_system::on_gui_draw(gui_draw_event& t_e) {
 
     ImGui::End();
 
-    ImGui::ShowDemoWindow();
-
     return false;
 }
 
