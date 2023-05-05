@@ -2,6 +2,7 @@
 #include <ege/ecs/system_manager.hpp>
 #include <ege/ecs/systems/project_selector_system.hpp>
 #include <ege/ecs/systems/project_explorer_system.hpp>
+#include <ege/ecs/systems/inspector_system.hpp>
 
 #include <imgui.h>
 
@@ -11,6 +12,7 @@ bool main_layer::on_attach(ere::attach_event& e) {
     // SYSTEMS
     system_manager::get<project_explorer_system>();
     system_manager::get<project_selector_system>();
+    system_manager::get<inspector_system>();
 
     return false;
 }
