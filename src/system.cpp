@@ -35,6 +35,10 @@ void system::on_event(ege_event &t_e) {
     dispatcher.dispatch<mouse_scrolled_event>(std::bind(&system::on_mouse_scrolled, this, std::placeholders::_1));
     
     dispatcher.dispatch<file_drop_event>(std::bind(&system::on_file_drop, this, std::placeholders::_1));
+
+    dispatcher.dispatch<open_project_event>(std::bind(&system::on_open_project, this, std::placeholders::_1));
+    dispatcher.dispatch<new_project_event>(std::bind(&system::on_new_project, this, std::placeholders::_1));
+    dispatcher.dispatch<save_project_event>(std::bind(&system::on_save_project, this, std::placeholders::_1));
 }
 
 }

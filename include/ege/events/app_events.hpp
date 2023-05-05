@@ -24,6 +24,10 @@ EMPTY_EVENT(simulation_step);
 EMPTY_EVENT(simulation_finish);
 EMPTY_EVENT(simulation_end);
 
+EMPTY_EVENT(save_project);
+EMPTY_EVENT(open_project);
+EMPTY_EVENT(new_project);
+
 class file_drop_event : public ege_event {
 public:
 

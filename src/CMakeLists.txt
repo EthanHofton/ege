@@ -32,6 +32,10 @@ FetchContent_MakeAvailable(nolhmann_json)
 set(EXE_NAME "ege")
 
 set(SOURCES
+    project_selector_system.cpp
+    project_explorer_system.cpp
+    vendor/ImGuiFileDialog/ImGuiFileDialog.cpp
+    project_manager.cpp
     system_manager.cpp
     system.cpp
     main_layer.cpp
@@ -48,7 +52,8 @@ add_executable(${EXE_NAME} ${SOURCES})
 # ================= INCLUDES =================
 target_include_directories(${EXE_NAME} PUBLIC 
     ${CMAKE_SOURCE_DIR}/include
-    ${CMAKE_BINARY_DIR}/include}
+    ${CMAKE_BINARY_DIR}/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/vendor/
 )
 # =============================================
 

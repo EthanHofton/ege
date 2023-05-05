@@ -1,0 +1,5 @@
+[submodule "src/vendor/ImGuiFileDialog"]
+	path = src/vendor/ImGuiFileDialog
+	url = https://github.com/aiekick/ImGuiFileDialog
+[submodule "src.vendor.ImGuiFileDialog"]
+	branch = Lib_Only
